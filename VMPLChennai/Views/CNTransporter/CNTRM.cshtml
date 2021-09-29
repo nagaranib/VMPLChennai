@@ -1,0 +1,594 @@
+﻿
+@{
+    Layout = null;
+    FWebControls.FOption TransAcc = null;
+    TransAcc = new FWebControls.FOption();
+
+    FWebControls.FOption ExpenseAcc = null;
+    ExpenseAcc = new FWebControls.FOption();
+
+    FWebControls.FOption TdsAcc = null;
+    TdsAcc = new FWebControls.FOption();
+
+
+}
+@{
+    TransAcc.Reset();
+    TransAcc.CreateControl(sId: "Account", sValue: "",
+iGroupType: 2,
+sURL: "/Focus8W/Transactions/TransData/GetOptionControlData",
+iMasterTypeId: 1,
+sMandatoryField: "sName",
+sFilter: "",
+
+sClassName: "form-control option-control",
+bExactMatch: true);
+    TransAcc.Id = "TransAcc";
+    TransAcc.Name = "TransAcc";
+}
+@{
+    ExpenseAcc.Reset();
+    ExpenseAcc.CreateControl(sId: "Account", sValue: "",
+iGroupType: 2,
+sURL: "/Focus8W/Transactions/TransData/GetOptionControlData",
+iMasterTypeId: 1,
+sMandatoryField: "sName",
+sFilter: "",
+
+sClassName: "form-control option-control",
+bExactMatch: true);
+    ExpenseAcc.Id = "ExpenseAcc";
+    ExpenseAcc.Name = "ExpenseAcc";
+}
+@{
+    TdsAcc.Reset();
+    TdsAcc.CreateControl(sId: "Account", sValue: "",
+iGroupType: 2,
+sURL: "/Focus8W/Transactions/TransData/GetOptionControlData",
+iMasterTypeId: 1,
+sMandatoryField: "sName",
+sFilter: "",
+
+sClassName: "form-control option-control",
+bExactMatch: true);
+    TdsAcc.Id = "TdsAcc";
+    TdsAcc.Name = "TdsAcc";
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    @*Credit Note Transpoter For Rawmaterial*@
+
+
+
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+            <script src="~/Scripts/bootstrap.min.js"></script>
+            <script src="~/Scripts/FClient.js"></script>
+            <link href="~/Content/OptionControl.css" rel="stylesheet" />
+            <script src="~/Scripts/FOptionCtrl.js"></script>
+
+             <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/FClient.js"></script>
+        <link href="~/Content/OptionControl.css" rel="stylesheet" />
+        <script src="~/Scripts/FOptionCtrl.js"></script>
+    *@
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/FClient.js"></script>
+    <link href="~/Content/OptionControl.css" rel="stylesheet" />
+    <script src="~/Scripts/FOptionCtrl.js"></script>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" />
+
+
+        <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="~/Content/DataTables/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+
+
+
+
+        <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/DataTables/dataTables.buttons.js"></script>
+        <script src="~/Scripts/jszip.min.js"></script>
+        <script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+        <script src="~/Scripts/DataTables/buttons.print.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>CNTRM</title>
+    <style>
+        .Heading {
+            color: #0073AA;
+            padding: 0px;
+            padding-left: 0px;
+        }
+
+
+
+        .centers {
+            display: flex;
+            justify-content: center;
+        }
+
+        #DivBtn {
+            border-top: 2px solid gray;
+            /*margin-left:25px;*/
+        }
+
+
+
+
+
+        .tableFixHead thead th {
+            position: sticky;
+            top: 0;
+            height: 2px;
+            background-color: #0073AA;
+            color: white;
+        }
+
+        .tableFixHead1 {
+            overflow-y: auto;
+            height: 100%;
+        }
+
+            .tableFixHead1 thead th {
+                position: sticky;
+                top: 0;
+                height: 2px;
+                background-color: #0073AA;
+                color: white;
+            }
+
+
+        #forwidth {
+            width: 100%;
+            height: 100px;
+        }
+
+        #loader {
+            position: fixed;
+            z-index: 999;
+            height: 2em;
+            width: 2em;
+            overflow: visible;
+            margin: auto;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        </br>
+        
+        <div class="panel panel-primary list-panel" id="list-panel">
+            <div class="panel-heading list-panel-heading">
+                <h1 class="panel-title list-panel-title">Credit Note Transport For RM</h1>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Transpoter</label>
+                        <div >
+                            <span>@TransAcc.GetHtml()</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6" >
+                        <label>Expense Account</label>
+                        <span>@ExpenseAcc.GetHtml()</span>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-md-6">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="FromDate">From Date</label>
+                                <input type="Date" class="form-control" id="FromDate" placeholder="Enter From Date" name="FromDate" min="1997-01-01" max="2130-12-31" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ToDate">To Date</label>
+                                <input type="date" class="form-control" id="ToDate" placeholder="Enter To Date" name="ToDate" min="1997-01-01" max="2130-12-31" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-sm-4">
+                                <input type="button" class="form-control" id="genarate" style="background-color: #0073aa; color: white; width: 100%;" value="Genarate" name="genarate" onclick="getdata();">
+                            
+                        </div>
+                        <div class="col-sm-4">
+                            
+                                <input type="button" class="form-control" style="background-color: #0073aa; color: white; width:100%; " id="post" value="POST" name="post">
+                            
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="button" class="form-control" style="background-color: #0073aa; color: white; " id="Refresh" value="Refresh" name="Refresh">
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+
+                <div class="row">
+                    <table id="assets-data-table" class="table table-bordered display nowrap" style="">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Doc No</th>
+                                <th>Date</th>
+                                <th>Vendor Name</th>
+                                <th>City</th>
+                                <th>Bill Number</th>
+                                <th>Bill Date</th>
+                                <th>Freight Type</th>
+                                <th>Freight Rate</th>
+                                <th>Freight Qty</th>
+                                <th>Freight Amount</th>
+                                <th>Approved Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblbody" name="tblbody">
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+
+
+
+            </div>
+        </div>
+        <div class="panel panel-primary list-panel" id="list-panel1">
+            <div class="panel-body">
+                <div class="row" style="padding:5px;">
+                    <div class="col-md-6">
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>Total Value</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="txttotalvalue" placeholder="Total Value" name="txttotalvalue">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>TDS%</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="txttdsper" placeholder="TDS%" name="txttdsper">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>TDS Amount</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="txttdsamt" placeholder="TDS Amount" name="txttdsamt">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>TDS Account</label>
+                            </div>
+                            <div class="col-sm-6" >
+                                @TdsAcc.GetHtml()
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>Bill No</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="txtbillno" placeholder="Bill No" name="txtbillno">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>Bill Date</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="date" class="form-control" id="txtbilldate" placeholder="Bill Date" name="txtbilldate" min="1997-01-01" max="2130-12-31" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>SGST</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="SGST" placeholder="SGST" name="SGST">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>CGST</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="CGST" placeholder="CGST" name="CGST">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>IGST</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="IGST" placeholder="IGST" name="IGST">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>Net Amount</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="NetAmt" placeholder="Net Amt" name="NetAmt">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>Invoice Amount</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="InvAmt" placeholder="Inv Amt" name="InvAmt">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding:5px;">
+                            <div class="col-sm-6">
+                                <label>Differnce Amt</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="DiffAmt" placeholder="Diff Amt" name="DiffAmt">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var sessionId = "";
+        var LoginId = 0;
+        $(document).ready(function () {
+
+            $('#assets-data-table').DataTable({
+                pageLength: 20,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text: 'Excel',
+                        className: 'exportExcel',
+                        filename: 'CreditNote',
+                        exportOptions: {
+                            modifier: {
+                                page: 'all'
+                            }
+                        }
+                    }
+                    ],
+                "sScrollX": "100%",
+                "sScrollXInner": "110%",
+                "bScrollCollapse": true });
+
+            getLoginDetails();
+
+        });
+        function getdata() {
+            debugger;
+            alert('hi');
+
+            var fdate = $('#FromDate').val();
+            var todate = $('#ToDate').val();
+            var accid = $('#TransAcc_data').val();
+            if (accid === undefined || accid == 0 || accid == "") {
+
+                accid = 0;
+            }
+
+            var CompanyId = @ViewBag.CompanyId;
+            var data = { CompanyId: CompanyId, AccId: accid, fdate: fdate, tdate: todate };
+
+            $.ajax({
+                url: "@Url.Action("CNTRMLoad", "CNTransporter")",
+                cache: false,
+                type: "POST",
+                datatype: 'JSON',
+                async: true,
+                data: data,
+                success: function (response) {
+                    debugger;
+                    if (response.status == true) {
+                        $("#tblbody tr").remove();
+
+                        var trHTML = '';
+                        if (response.lsttblData.length > 0) {
+                            var t = $('#assets-data-table').DataTable();
+                            t.clear().draw();
+                            var totfrieght = 0;
+                            for (var i = 0; i < response.lsttblData.length; i++) {
+                                totfrieght +=  parseFloat(response.lsttblData[i].FREIGHTAMOUNT);
+                                t.row.add([
+                                    '<input type="checkbox" class="form-control" id="chkbox-' + response.lsttblData[i].HEADERID + '" name="chkbox" style="height:15px;weight:15px;">',
+                                    response.lsttblData[i].VOUCHERNO,
+                                    response.lsttblData[i].VOUCHERDATE,
+                                    response.lsttblData[i].VENDOR,
+                                    response.lsttblData[i].CITY,
+                                    response.lsttblData[i].DCNO,
+                                    response.lsttblData[i].DCDATE,
+                                    response.lsttblData[i].FREIGHTTYPE,
+                                    response.lsttblData[i].FREIGHTRATE,
+                                    response.lsttblData[i].QTY,
+                                    response.lsttblData[i].FREIGHTAMOUNT,
+                                    response.lsttblData[i].FREIGHTAMOUNT
+                                ]).draw(false);
+                            }
+                            t.row.add(['Total','' ,'' ,'' ,'' ,'' ,'', '', '', '', totfrieght , totfrieght]).draw(false);
+
+
+                        }
+                    }
+                },
+                error: function (e) {
+                    debugger;
+                }
+            });
+        }
+        $(function () {
+            //Assign Click event to Button.
+            $("#post").click(function () {
+                var message = "";
+
+                //Loop through all checked CheckBoxes in GridView.
+                $("#assets-data-table input[type=checkbox]:checked").each(function () {
+                    var row = $(this).closest("tr")[0];
+                    message += row.cells[1].innerHTML;
+                    message += "   " + row.cells[2].innerHTML;
+                    message += "   " + row.cells[3].innerHTML;
+                    message += "\n";
+                });
+
+                alert(message);
+
+                var txttotal = $('#txttotalvalue').val();
+                var tdsvalue = $('#txttdsamt').val();
+                var netamt =   $('#NetAmt').val();
+                var diffamt= $('#DiffAmt').val();
+                var SGST = $('#SGST').val();
+                var CGST = $('#CGST').val();
+                var IGST = $('#IGST').val();
+                var InvAmt = $('#InvAmt').val();
+                //var IGST = $('#IGST').val();
+
+                var TransAcc = $('#TransAcc').val();
+                var ExpenseAcc = $('#ExpenseAcc').val();
+                var TdsAcc = $('#TdsAcc').val();
+                var CompanyId = @ViewBag.CompanyId;
+
+                $.ajax({
+                    url: '@Url.Action("PostingData", "CNTransporter")',
+                    cach: false,
+                    type: "POST",
+                    datatype: 'JSON',
+                    async: true,
+                    data: {
+                        CompanyId: CompanyId,
+                        TransAcc: TransAcc,//83
+                        ExpenseAcc: ExpenseAcc,
+                        TdsAcc: TdsAcc,
+                        InvAmt: InvAmt,
+                        tdsvalue: tdsvalue,
+                        SGST: SGST,
+                        CGST: CGST,
+                        IGST: IGST,
+                        diffamt: diffamt,
+                        sessionId:sessionId,
+
+                    },
+                    success: function (response) {
+                        //end process
+                       /* $("#progress").hide();*/
+                        debugger;
+                        if (response.status == true) {
+                            alert(response.message);
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                        
+                    },
+                    error: function (e) {
+                        debugger;
+                    }
+                })
+
+                return false;
+            });
+
+            $("#assets-data-table").on('change', "input[type='checkbox']", function (e) {
+
+                if ($(this).prop("checked") == true) {
+
+                }
+                var txtamount = 0;
+                $("#assets-data-table input[type=checkbox]:checked").each(function () {
+                    var row = $(this).closest("tr")[0];
+                    txtamount += +row.cells[10].innerHTML;
+                });
+                $('#txttotalvalue').val(txtamount);
+            });
+            $("#txttdsamt").focus(function () {
+                var txttotal = $('#txttotalvalue').val();
+                var txttdsper = $('#txttdsper').val();
+                this.value = txttotal * txttdsper / 100;
+            });
+            $("#NetAmt").focus(function () {
+                var txttotal = $('#txttotalvalue').val();
+                var tdsvalue = $('#txttdsamt').val();
+                var sgstper = $('#SGST').val();
+                var cgstper = $('#CGST').val();
+                var igstper = $('#IGST').val();
+
+                var sgst = txttotal * sgstper / 100;
+                var cgst = txttotal * cgstper / 100;
+                var igst = txttotal * igstper / 100;
+
+                var netamt = parseFloat(txttotal) - parseFloat(tdsvalue) + parseFloat(sgst) + parseFloat(cgst) + parseFloat(igst);
+                $('#NetAmt').val(netamt);
+            });
+            $("#DiffAmt").focus(function () {
+                var netamt = $('#NetAmt').val();
+                var invamt = $('#InvAmt').val();
+                var diffamt = netamt - invamt;
+                $('#DiffAmt').val(diffamt);
+            });
+
+            //$("#txttdsamt").focus(function () {
+            //    $(this).css("background-color", "yellow");
+            //});
+            //$("#txttdsamt").focus(function () {
+            //    $(this).css("background-color", "yellow");
+            //});
+            //$("input").blur(function () {
+            //    $(this).css("background-color", "green");
+            //});
+
+        });
+
+        function getLoginDetails() {
+            Focus8WAPI.getGlobalValue("getLoginDetailsCallback", '*', 1);
+        }
+        function getLoginDetailsCallback(response) {
+            debugger;
+            try {
+                console.log("response", response);
+                sessionId = response.data.SessionId;
+                LoginId = response.data.LoginId;
+                var data = { CompanyId, LoginId };
+                alert(response);
+
+            }
+            catch (e) {
+                console.log(e)
+            }
+        }
+    </script>
+</body>
+
+</html>
